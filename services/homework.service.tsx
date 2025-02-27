@@ -4,6 +4,7 @@ import { HomeworkDTO, CreateHomeworkDTO } from "@/dtos/homework";
 
 export default class HomeworkService {
   private static _instance: HomeworkService;
+  private _homeworksContext = useContext(HomeworksContext);
   private constructor() {}
 
   public static getInstance(): HomeworkService {
@@ -14,37 +15,33 @@ export default class HomeworkService {
   }
 
   public listHomeworks() {
-    return useContext(HomeworksContext);
+    return this._homeworksContext;
   }
 
   public listHomeworkById(id: number): HomeworkDTO | null {
-    const homeworksContext = useContext(HomeworksContext);
-    const homework = homeworksContext.find((homework) => homework.id === id);
+    const homework = this._homeworksContext.find((homework) => homework.id === id);
     
     return homework || null;
   }
 
   public addHomework(homework: CreateHomeworkDTO): HomeworkDTO {
-    const homeworksContext = useContext(HomeworksContext);
-    const id = homeworksContext.length + 1;
+    const id = this._homeworksContext.length + 1;
     const newHomework: HomeworkDTO = { ...homework, id, done: false };
 
-    homeworksContext.push(newHomework);
+    this._homeworksContext.push(newHomework);
     return newHomework;
   }
 
   public updateHomework(homework: HomeworkDTO): HomeworkDTO {
-    const homeworksContext = useContext(HomeworksContext);
-    const index = homeworksContext.findIndex((homework) => homework.id === homework.id);
-    homeworksContext[index] = homework;
+    const index = this._homeworksContext.findIndex((homework) => homework.id === homework.id);
+    this._homeworksContext[index] = homework;
     return homework;
   }
 
   public deleteHomework(id: number): HomeworkDTO {
-    const homeworksContext = useContext(HomeworksContext);
-    const index = homeworksContext.findIndex((homework) => homework.id === id);
-    homeworksContext.splice(index, 1);
+    const index = this._homeworksContext.findIndex((homework) => homework.id === id);
+    this._homeworksContext.splice(index, 1);
 
-    return homeworksContext[index];
+    return this._homeworksContext[index];
   }
 }

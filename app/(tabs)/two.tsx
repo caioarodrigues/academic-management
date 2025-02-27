@@ -1,10 +1,11 @@
-import { StyleSheet } from "react-native";
 import HomeworkForm from "@/components/HomeworkForm";
+import { StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
+import { ScrollView } from "react-native";
 
 export default function TabTwoScreen() {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Adicionar tarefa</Text>
       <View
         style={styles.separator}
@@ -12,7 +13,7 @@ export default function TabTwoScreen() {
         darkColor="rgba(255,255,255,0.1)"
       />
       <HomeworkForm />
-    </View>
+    </ScrollView>
   );
 }
 

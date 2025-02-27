@@ -16,41 +16,49 @@ const HomeworkDetailsModal: React.FC<HomeworkDetailsModalProps> = ({
   homework,
 }: HomeworkDetailsModalProps) => {
   return (
-    <View
-      style={(styles.container, { display: !modalVisible ? "flex" : "none" })}
-    >
-      <View
-        style={styles.mainContent}
-        // animationType="slide"
-        // transparent={true}
-        // visible={modalVisible}
-        // onRequestClose={toggleModal}
-      >
-        <View style={styles.modalBackground}>
-          <Text>{title}</Text>
-          <View style={styles.modalContent}>
-            {homework && (
-              <View>
-                <Text>Responsável: {homework.responsible}</Text>
-                <Text>Título: {homework.title}</Text>
-                <Text>Descrição: {homework.description}</Text>
-                <Text>Prazo: {homework.deadline.toDateString()}</Text>
+    <>
+      {modalVisible && (
+        <View style={styles.container}>
+          <View style={styles.mainContent}>
+            <View style={styles.modalBackground}>
+              <Text style={styles.title}>{title}</Text>
+              <View style={styles.modalContent}>
+                {homework && (
+                  <View>
+                    <Text>Responsável: {homework.responsible}</Text>
+                    <Text>Título: {homework.title}</Text>
+                    <Text>Descrição: {homework.description}</Text>
+                    <Text>Prazo: {homework.deadline.toDateString()}</Text>
+                  </View>
+                )}
+                <View style={{ flexDirection: "row", gap: 8, marginTop: 8 }}>
+                  <Button title="Concluir" onPress={toggleModal} />
+                  <Button title="Fechar" onPress={toggleModal} />
+                  <Button title="Editar" onPress={toggleModal} />
+                  <Button title="Excluir" onPress={toggleModal} />
+                </View>
               </View>
-            )}
-            <Button title="Fechar" onPress={toggleModal} />
+            </View>
           </View>
         </View>
-      </View>
-    </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
   container: {
     flex: 1,
     alignItems: "center",
+    height: "100%",
     position: "absolute",
     marginTop: 16,
+    width: "100%",
     zIndex: 10,
   },
   pressable: {
@@ -63,14 +71,12 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
+    padding: 8,
+    borderRadius: 4,
     backgroundColor: "#ccc",
   },
   modalContent: {
-    // width: 300,
-    // padding: 20,
-    // backgroundColor: "white",
-    // borderRadius: 10,
-    // alignItems: "center",
+    fontSize: 16,
   },
 });
 

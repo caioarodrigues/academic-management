@@ -5,14 +5,14 @@ import { FlatList } from "react-native";
 import Question from "react-native-bootstrap-icons/icons/question";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import HomeworkDetailsModal from "@/components/HomeworkDetailsModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { HomeworkDTO } from "../../dtos/homework";
 import HomeworkService from "@/services/homework.service";
+import { HomeworksContext } from "@/context/homework/homeworkContext";
 
 export default function TabOneScreen() {
   const [modalOpen, setModalOpen] = useState(false);
-  const homeworkService = HomeworkService.getInstance();
-  const homeworkList = homeworkService.listHomeworks();
+  const homeworkList = useContext(HomeworksContext);
   const [selectedHomework, setSelectedHomework] = useState<HomeworkDTO | null>(null);
   const toggleModal = () => setModalOpen((state) => !state);
   const handleDetails = (homework: HomeworkDTO) => {
