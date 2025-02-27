@@ -7,11 +7,12 @@ import { Grid, Row, Col } from "react-native-easy-grid";
 import HomeworkDetailsModal from "@/components/HomeworkDetailsModal";
 import { useState } from "react";
 import { HomeworkDTO } from "../../dtos/homework";
-import { useListHomeworks } from "@/context/homework/useListHomeworks";
+import HomeworkService from "@/services/homework.service";
 
 export default function TabOneScreen() {
   const [modalOpen, setModalOpen] = useState(false);
-  const homeworkList = useListHomeworks();
+  const homeworkService = HomeworkService.getInstance();
+  const homeworkList = homeworkService.listHomeworks();
   const [selectedHomework, setSelectedHomework] = useState<HomeworkDTO | null>(null);
   const toggleModal = () => setModalOpen((state) => !state);
   const handleDetails = (homework: HomeworkDTO) => {

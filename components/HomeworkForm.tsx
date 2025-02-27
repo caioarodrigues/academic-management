@@ -4,8 +4,10 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { CreateHomeworkDTO } from "@/dtos/homework";
+import HomeworkService from "@/services/homework.service";
 
-// Definição do esquema de validação com Yup
+const homeworkService = HomeworkService.getInstance();
+
 const schema = yup.object().shape({
   responsible: yup.string().required("Responsável é obrigatório"),
   title: yup.string().required("Título é obrigatório"),
@@ -21,12 +23,27 @@ const HomeworkForm: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CreateHomeworkDTO>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<CreateHomeworkDTO> = (data) => {
-    Alert.alert("Dados do formulário", JSON.stringify(data));
+    homeworkService.addHomework(data);
+    Alert.alert("Sucesso", "Nova tarefa cadastrada com sucesso!", [
+      {
+        text: "OK",
+        onPress: () => {
+          // Limpa os campos do formulário após a confirmação do alerta
+          reset({
+            responsible: "",
+            title: "",
+            description: "",
+            deadline: undefined,
+          });
+        },
+      },
+    ]);
   };
 
   return (
