@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { CreateHomeworkDTO } from "@/app/dtos/homework";
+import { CreateHomeworkDTO } from "@/dtos/homework";
 
 // Definição do esquema de validação com Yup
 const schema = yup.object().shape({

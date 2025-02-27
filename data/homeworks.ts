@@ -1,6 +1,6 @@
-import IHomework from "../interfaces/homework";
+import { HomeworkDTO } from "../dtos/homework";
 
-export const homeworksData: IHomework[] = [
+export const homeworksData: HomeworkDTO[] = [
   {
     id: 1,
     responsible: "John Doe",

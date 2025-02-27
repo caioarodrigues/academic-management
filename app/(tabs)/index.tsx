@@ -1,17 +1,24 @@
 import { StyleSheet } from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { ScrollView } from "react-native";
 import { FlatList } from "react-native";
-import { homeworksData } from "../data/homeworks";
-import CheckCircleFill from "react-native-bootstrap-icons/icons/check-circle-fill";
-import Pencil from "react-native-bootstrap-icons/icons/pencil";
-import Trash from "react-native-bootstrap-icons/icons/trash";
 import Question from "react-native-bootstrap-icons/icons/question";
-import { Grid, Row, Col } from 'react-native-easy-grid';
+import { Grid, Row, Col } from "react-native-easy-grid";
+import HomeworkDetailsModal from "@/components/HomeworkDetailsModal";
+import { useState } from "react";
+import { HomeworkDTO } from "../../dtos/homework";
+import { useListHomeworks } from "@/context/homework/useListHomeworks";
 
 export default function TabOneScreen() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const homeworkList = useListHomeworks();
+  const [selectedHomework, setSelectedHomework] = useState<HomeworkDTO | null>(null);
+  const toggleModal = () => setModalOpen((state) => !state);
+  const handleDetails = (homework: HomeworkDTO) => {
+    setSelectedHomework(homework);
+    toggleModal();
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.tabMessage}>
@@ -22,10 +29,16 @@ export default function TabOneScreen() {
           darkColor="rgba(255,255,255,0.1)"
         />
       </View>
+      <HomeworkDetailsModal
+        modalVisible={modalOpen}
+        toggleModal={toggleModal}
+        title="Detalhes da atividade"
+        homework={selectedHomework}
+      />
       <FlatList
         style={styles.homeworkList}
-        data={homeworksData}
-        renderItem={({ item: { title, description } }) => (
+        data={homeworkList}
+        renderItem={({ item: { title, description }, index }) => (
           <View>
             <Grid>
               <Row>
@@ -33,10 +46,19 @@ export default function TabOneScreen() {
                   <Text style={styles.homeworkTitle}>{title}</Text>
                   <Text>{description}</Text>
                 </Col>
-                <Col style={{ width: "auto", flexDirection: "row" }}>
-                  <Pencil width={32} height={32} fill={"#000"} />
-                  <Trash width={32} height={32} fill={"#000"} />
-                  <Question width={32} height={32} fill={"#000"} />
+                <Col
+                  style={{
+                    width: "auto",
+                    alignItems: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Question
+                    width={32}
+                    height={32}
+                    fill={"#000"}
+                    onPress={() => handleDetails(homeworkList[index])}
+                  />
                 </Col>
               </Row>
             </Grid>
