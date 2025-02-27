@@ -5,6 +5,11 @@ import { Text, View } from "@/components/Themed";
 import { ScrollView } from "react-native";
 import { FlatList } from "react-native";
 import { homeworksData } from "../data/homeworks";
+import CheckCircleFill from "react-native-bootstrap-icons/icons/check-circle-fill";
+import Pencil from "react-native-bootstrap-icons/icons/pencil";
+import Trash from "react-native-bootstrap-icons/icons/trash";
+import Question from "react-native-bootstrap-icons/icons/question";
+import { Grid, Row, Col } from 'react-native-easy-grid';
 
 export default function TabOneScreen() {
   return (
@@ -22,12 +27,23 @@ export default function TabOneScreen() {
         data={homeworksData}
         renderItem={({ item: { title, description } }) => (
           <View>
-            <Text style={styles.homeworkTitle}>{title}</Text>
-            <Text>{description}</Text>
+            <Grid>
+              <Row>
+                <Col>
+                  <Text style={styles.homeworkTitle}>{title}</Text>
+                  <Text>{description}</Text>
+                </Col>
+                <Col style={{ width: "auto", flexDirection: "row" }}>
+                  <Pencil width={32} height={32} fill={"#000"} />
+                  <Trash width={32} height={32} fill={"#000"} />
+                  <Question width={32} height={32} fill={"#000"} />
+                </Col>
+              </Row>
+            </Grid>
           </View>
         )}
+        contentContainerStyle={{ gap: 10 }}
       />
-      <ScrollView></ScrollView>
     </View>
   );
 }
