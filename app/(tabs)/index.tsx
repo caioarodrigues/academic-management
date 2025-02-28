@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import { FlatList } from "react-native";
@@ -26,37 +26,7 @@ export default function TabOneScreen() {
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
-
     }
-    else console.log("Tela saiu de foco");
-    /*     const homeworksMock: HomeworkDTO[] = [
-      {
-        id: 1,
-        title: "Atividade 1",
-        description: "Descrição da atividade 1",
-        deadline: new Date(),
-        done: false,
-        responsible: "teacher 3"
-      },
-      {
-        id: 2,
-        title: "Atividade 2",
-        description: "Descrição da atividade 2",
-        deadline: new Date(),
-        done: false,
-        responsible: "teacher 2"
-      },
-      {
-        id: 3,
-        title: "Atividade 3",
-        description: "Descrição da atividade 3",
-        deadline: new Date(),
-        done: false,
-        responsible: "teacher 1"
-      }
-    ];
-
-    homeworksMock.forEach(homework => createHomework(homework)); */
   }, [isFocused]);
 
   return (
@@ -78,9 +48,8 @@ export default function TabOneScreen() {
       <FlatList
         style={styles.homeworkList}
         data={homeworks}
-        key="flat-list"
         renderItem={({ item: { title, description }, index }) => (
-          <View key={index + title + description}>
+          <View key={index}>
             <Grid>
               <Row>
                 <Col>
@@ -94,10 +63,9 @@ export default function TabOneScreen() {
                     flexDirection: "row",
                   }}
                 >
-                  <Question
-                    width={32}
-                    height={32}
-                    fill={"#000"}
+                  <Button
+                    title="Detalhes"
+                    color={"#000"}
                     onPress={() => handleDetails(homeworks[index])}
                   />
                 </Col>
@@ -118,6 +86,7 @@ const styles = StyleSheet.create({
     gap: 16,
     flex: 1,
     flexDirection: "column",
+    width: "90%",
   },
   homeworkTitle: {
     fontSize: 16,

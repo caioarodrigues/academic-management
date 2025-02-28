@@ -13,7 +13,9 @@ const schema = yup.object().shape({
   deadline: yup
     .date()
     .required("Prazo é obrigatório")
-    .typeError("Data inválida"),
+    .test('is-valid', 'Data inválida', (value) => 
+      value instanceof Date && !isNaN(value.getTime())
+    ),
 });
 
 const HomeworkForm: React.FC = () => {
@@ -27,22 +29,25 @@ const HomeworkForm: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<CreateHomeworkDTO> = (data) => {
-    createHomework(data);
-    Alert.alert("Sucesso", "Nova tarefa cadastrada com sucesso!", [
-      {
-        text: "OK",
-        onPress: () => {
-          // Limpa os campos do formulário após a confirmação do alerta
-          reset({
-            responsible: "",
-            title: "",
-            description: "",
-            deadline: undefined,
-          });
+  const onSubmit: SubmitHandler<CreateHomeworkDTO> = async (data) => {
+    try {
+      await createHomework(data);
+      Alert.alert("Sucesso", "Nova tarefa cadastrada com sucesso!", [
+        {
+          text: "OK",
+          onPress: () => {
+            reset({
+              responsible: "",
+              title: "",
+              description: "",
+              deadline: undefined,
+            });
+          },
         },
-      },
-    ]);
+      ]);
+    } catch (error) {
+      Alert.alert("Erro", "Ocorreu um erro ao criar a tarefa");
+    }
   };
 
   return (
@@ -113,7 +118,7 @@ const HomeworkForm: React.FC = () => {
         )}
       />
 
-      <Controller
+<Controller
         control={control}
         name="deadline"
         render={({ field: { onChange, onBlur, value } }) => (
@@ -121,11 +126,11 @@ const HomeworkForm: React.FC = () => {
             <TextInput
               placeholder="Prazo (YYYY-MM-DD)"
               onBlur={onBlur}
-              onChangeText={(text) => onChange(new Date(text))}
+              onChangeText={(text) => onChange(text ? new Date(text) : null)}
               value={
-                value instanceof Date && !isNaN(value.getTime())
-                  ? value.toISOString().split("T")[0]
-                  : ""
+                value && !isNaN(new Date(value).getTime())
+                  ? new Date(value).toISOString().split('T')[0]
+                  : ''
               }
               style={[
                 styles.input,
