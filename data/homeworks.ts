@@ -1,4 +1,4 @@
-import { HomeworkDTO } from "../dtos/homework";
+import { HomeworkDTO } from "../domain/dtos/homework";
 
 export const homeworksData: HomeworkDTO[] = [
   {

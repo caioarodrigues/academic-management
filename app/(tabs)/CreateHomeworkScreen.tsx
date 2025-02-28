@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { ScrollView } from "react-native";
 
-export default function TabTwoScreen() {
+export default function CreateHomeworkScreen() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Adicionar tarefa</Text>

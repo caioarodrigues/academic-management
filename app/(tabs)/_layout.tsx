@@ -31,7 +31,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Tarefas cadastradas",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -49,10 +49,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="CreateHomeworkScreen"
         options={{
           title: "Cadastrar tarefa",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="pencil" color={color} />,
         }}
       />
     </Tabs>
