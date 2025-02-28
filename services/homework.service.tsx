@@ -1,6 +1,6 @@
 import { HomeworksContext } from "@/context/homework/homeworkContext";
 import { useContext } from "react";
-import { HomeworkDTO, CreateHomeworkDTO } from "@/dtos/homework";
+import { HomeworkDTO, CreateHomeworkDTO } from "@/domain/dtos/homework";
 
 export default class HomeworkService {
   private static _instance: HomeworkService;

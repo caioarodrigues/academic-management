@@ -3,10 +3,8 @@ import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { CreateHomeworkDTO } from "@/dtos/homework";
-import HomeworkService from "@/services/homework.service";
-
-const homeworkService = HomeworkService.getInstance();
+import { CreateHomeworkDTO } from "@/domain/dtos/homework";
+import { useHomeworks } from "@/presentation/contexts/HomeworkContext";
 
 const schema = yup.object().shape({
   responsible: yup.string().required("Responsável é obrigatório"),
@@ -19,6 +17,7 @@ const schema = yup.object().shape({
 });
 
 const HomeworkForm: React.FC = () => {
+  const { createHomework } = useHomeworks();
   const {
     control,
     handleSubmit,
@@ -29,7 +28,7 @@ const HomeworkForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<CreateHomeworkDTO> = (data) => {
-    homeworkService.addHomework(data);
+    createHomework(data);
     Alert.alert("Sucesso", "Nova tarefa cadastrada com sucesso!", [
       {
         text: "OK",

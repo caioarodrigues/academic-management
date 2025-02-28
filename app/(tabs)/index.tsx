@@ -5,20 +5,59 @@ import { FlatList } from "react-native";
 import Question from "react-native-bootstrap-icons/icons/question";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import HomeworkDetailsModal from "@/components/HomeworkDetailsModal";
-import { useContext, useState } from "react";
-import { HomeworkDTO } from "../../dtos/homework";
-import HomeworkService from "@/services/homework.service";
-import { HomeworksContext } from "@/context/homework/homeworkContext";
+import { useEffect, useState } from "react";
+import { HomeworkDTO } from "../../domain/dtos/homework";
+import { useHomeworks } from "@/presentation/contexts/HomeworkContext";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function TabOneScreen() {
   const [modalOpen, setModalOpen] = useState(false);
-  const homeworkList = useContext(HomeworksContext);
-  const [selectedHomework, setSelectedHomework] = useState<HomeworkDTO | null>(null);
+  //const homeworkList = useContext(HomeworksContext);
+  const { createHomework, homeworks, getHomeworks } = useHomeworks();
+  const [selectedHomework, setSelectedHomework] = useState<HomeworkDTO | null>(
+    null
+  );
   const toggleModal = () => setModalOpen((state) => !state);
   const handleDetails = (homework: HomeworkDTO) => {
     setSelectedHomework(homework);
     toggleModal();
-  }
+  };
+
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) {
+
+    }
+    else console.log("Tela saiu de foco");
+    /*     const homeworksMock: HomeworkDTO[] = [
+      {
+        id: 1,
+        title: "Atividade 1",
+        description: "Descrição da atividade 1",
+        deadline: new Date(),
+        done: false,
+        responsible: "teacher 3"
+      },
+      {
+        id: 2,
+        title: "Atividade 2",
+        description: "Descrição da atividade 2",
+        deadline: new Date(),
+        done: false,
+        responsible: "teacher 2"
+      },
+      {
+        id: 3,
+        title: "Atividade 3",
+        description: "Descrição da atividade 3",
+        deadline: new Date(),
+        done: false,
+        responsible: "teacher 1"
+      }
+    ];
+
+    homeworksMock.forEach(homework => createHomework(homework)); */
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -38,9 +77,10 @@ export default function TabOneScreen() {
       />
       <FlatList
         style={styles.homeworkList}
-        data={homeworkList}
+        data={homeworks}
+        key="flat-list"
         renderItem={({ item: { title, description }, index }) => (
-          <View>
+          <View key={index + title + description}>
             <Grid>
               <Row>
                 <Col>
@@ -58,7 +98,7 @@ export default function TabOneScreen() {
                     width={32}
                     height={32}
                     fill={"#000"}
-                    onPress={() => handleDetails(homeworkList[index])}
+                    onPress={() => handleDetails(homeworks[index])}
                   />
                 </Col>
               </Row>

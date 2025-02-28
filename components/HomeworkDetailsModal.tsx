@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, View, Text, Button, StyleSheet } from "react-native";
-import { HomeworkDTO } from "@/dtos/homework";
+import { HomeworkDTO } from "@/domain/dtos/homework";
 
 interface HomeworkDetailsModalProps {
   title: string;

@@ -1,5 +1,5 @@
 import { HomeworksContext } from "./homeworkContext";
-import { HomeworkDTO } from "@/dtos/homework";
+import { HomeworkDTO } from "@/domain/dtos/homework";
 import { homeworksData } from "@/data/homeworks";
 
 interface HomeworkProviderProps {
